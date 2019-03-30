@@ -18,9 +18,11 @@ public class CalculateFuelUsage {
     private List<FuelRateData> fuelData;
     
     // Fuel info file
-    private String fuelFile = "src/main/resources/data/fuel_data.txt";
+    private SystemProperties systemProperties;
 
     public CalculateFuelUsage() {
+        systemProperties = new SystemProperties();
+
         fuelData = new ArrayList<FuelRateData>();
         acWeight = 6000.0;
 
@@ -82,7 +84,7 @@ public class CalculateFuelUsage {
     	int countData = 0;
     	
         try {
-            File file = new File(fuelFile);
+            File file = new File(systemProperties.getOdmFileName());
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             // FileWriter writeToFile = new FileWriter(file);
@@ -107,6 +109,7 @@ public class CalculateFuelUsage {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("ERROR - fuel_data file not found");
+            System.exit(0);
         }
         
         if(countData != 180) {
